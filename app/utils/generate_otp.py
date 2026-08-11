@@ -8,3 +8,7 @@ def generate_otp() -> str:
 
 def get_otp_expiry() -> datetime:
     return datetime.now(timezone.utc) + timedelta(minutes=2)
+
+
+def generate_password() -> str:
+    return f"{secrets.randbelow(100000):04d}"

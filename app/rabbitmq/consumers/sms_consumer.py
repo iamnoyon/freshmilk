@@ -33,6 +33,8 @@ def handle_sms_message(data):
         "to": phone,
     }
 
+    print(payload)
+
     # try:
     #     response = requests.request("POST", SMS_URL, data=payload, timeout=10)
     #     response.raise_for_status()
