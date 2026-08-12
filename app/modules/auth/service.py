@@ -57,6 +57,8 @@ def user_registration(req, db: Session):
         db.flush()
         db.refresh(new_user)
 
+        
+
         otp = generate_otp()
         hash_otp = opt_hash(otp)
         expire = get_otp_expiry()
