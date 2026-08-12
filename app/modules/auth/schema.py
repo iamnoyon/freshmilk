@@ -12,7 +12,6 @@ class RegisterSchema(BaseModel):
     name: str = Field(default="Mr. John", min_length=2, max_length=100)
     nid: str = Field(default="12324353432", min_length=10, max_length=20)
     phone: str = Field(default="01889010235", min_length=11, max_length=15)
-    password: str = Field(default="1234", min_length=4, max_length=4)
     area: AreaEnum = AreaEnum.MIRPURDOSH
     road: str = Field(default="10", min_length=1, max_length=20)
     house: str = Field(default="1234", min_length=1, max_length=20)
@@ -53,7 +52,6 @@ class ResendOPTSchema(BaseModel):
 
 class LoginSchema(BaseModel):
     phone: str = Field(default="01889010235", min_length=11, max_length=15)
-    password: str = Field(default="1234", min_length=4, max_length=4)
 
     @field_validator("phone")
     @classmethod

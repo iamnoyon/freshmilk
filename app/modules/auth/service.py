@@ -10,7 +10,8 @@ from app.modules.otp.model import OTP
 from app.utils.token import create_token
 from app.utils.hash_password import (
     password_hash, 
-    password_verify
+    password_verify,
+    opt_hash
 )
 from app.utils.generate_otp import (
     generate_otp, 
@@ -26,20 +27,25 @@ def user_registration(req, db: Session):
     user = db.query(User).filter(User.phone == req.phone).first()
 
     if user:
+        if not user.phone_verified:
+            return {
+                "success": True,
+                "status_code": 00,
+                "message": "OTP sent to your phone"
+            }
+        
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
             detail="User already exists with this phone."
         )
+    
 
     try:
-        hash_pass = password_hash(req.password)
-
         new_user = User(
             name=req.name,
             nid=req.nid,
-            nid_verified=False,
+            phone_verified=False,
             phone=req.phone,
-            password=hash_pass,
             role = ROLE.CUSTOMER,
             area=req.area,
             road=req.road,
@@ -52,7 +58,7 @@ def user_registration(req, db: Session):
         db.refresh(new_user)
 
         otp = generate_otp()
-        hash_otp = password_hash(otp)
+        hash_otp = opt_hash(otp)
         expire = get_otp_expiry()
 
         new_otp = OTP(

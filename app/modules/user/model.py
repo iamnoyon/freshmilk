@@ -29,11 +29,9 @@ class User(Base):
 
     name: Mapped[str] = mapped_column(nullable=False)
     nid: Mapped[str] = mapped_column(nullable=False)
-    nid_verified: Mapped[bool] = mapped_column(nullable=False, default=False)
-
     phone: Mapped[str] = mapped_column(nullable=False)
-    password: Mapped[str] = mapped_column(nullable=False)
-
+    phone_verified: Mapped[bool] = mapped_column(nullable=True, default=False)
+    
     role: Mapped[ROLE] = mapped_column(
         SAEnum(ROLE),
         nullable=False,
